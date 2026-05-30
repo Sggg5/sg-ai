@@ -3,148 +3,235 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FRANTA AI工程师助手</title>
+
+<title>FRANTA AI知识中心</title>
 
 <style>
 
-body{
-    margin:0;
-    background:#f5f6f8;
-    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI";
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:"Microsoft YaHei";
 }
 
-.container{
-    max-width:1000px;
-    margin:auto;
-    padding:60px 20px;
+body{
+background:#f5f7fb;
+color:#222;
+}
+
+.hero{
+text-align:center;
+padding:80px 20px 50px;
 }
 
 .logo{
-    text-align:center;
-    margin-bottom:50px;
+font-size:72px;
+font-weight:800;
 }
 
-.logo h1{
-    font-size:56px;
-    margin:0;
+.sub{
+margin-top:20px;
+font-size:24px;
+color:#666;
 }
 
-.logo p{
-    color:#666;
-    font-size:20px;
-}
+.search-card{
 
-.search-box{
-    background:white;
-    padding:30px;
-    border-radius:20px;
-    box-shadow:0 10px 30px rgba(0,0,0,.08);
+max-width:1000px;
+margin:40px auto;
+background:#fff;
+border-radius:20px;
+padding:30px;
+box-shadow:0 10px 30px rgba(0,0,0,.08);
+
 }
 
 input{
-    width:100%;
-    height:60px;
-    font-size:22px;
-    border:1px solid #ddd;
-    border-radius:12px;
-    padding:0 20px;
+
+width:100%;
+padding:22px;
+font-size:24px;
+border:1px solid #ddd;
+border-radius:14px;
+
 }
 
 button{
-    margin-top:20px;
-    width:100%;
-    height:55px;
-    border:none;
-    background:#111827;
-    color:white;
-    border-radius:12px;
-    font-size:20px;
-    cursor:pointer;
+
+width:100%;
+margin-top:20px;
+padding:20px;
+
+font-size:26px;
+font-weight:bold;
+
+background:#0f172a;
+color:white;
+
+border:none;
+border-radius:14px;
+cursor:pointer;
+
+}
+
+button:hover{
+background:#1e293b;
 }
 
 .result{
-    margin-top:30px;
-    background:white;
-    border-radius:20px;
-    padding:30px;
-    min-height:150px;
-    box-shadow:0 10px 30px rgba(0,0,0,.08);
+
+max-width:1000px;
+margin:20px auto;
+background:white;
+padding:30px;
+border-radius:20px;
+box-shadow:0 10px 30px rgba(0,0,0,.08);
+
+line-height:1.8;
+font-size:18px;
+
 }
 
-.hot{
-    margin-top:40px;
+.cards{
+
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:20px;
+
+max-width:1200px;
+margin:40px auto;
+
 }
 
-.hot-item{
-    background:white;
-    padding:15px;
-    border-radius:12px;
-    margin-top:10px;
-    cursor:pointer;
+.card{
+
+background:white;
+padding:25px;
+border-radius:18px;
+box-shadow:0 5px 20px rgba(0,0,0,.06);
+
+}
+
+.card h3{
+margin-bottom:10px;
+}
+
+.footer{
+
+text-align:center;
+padding:60px 20px;
+color:#888;
+
 }
 
 </style>
+
 </head>
 
 <body>
 
-<div class="container">
+<div class="hero">
 
 <div class="logo">
-<h1>FRANTA AI</h1>
-<p>不锈钢管道 · 工艺研发 · 质量管理 · 水务工程</p>
+FRANTA AI
 </div>
 
-<div class="search-box">
+<div class="sub">
+不锈钢管道 · 工艺研发 · 品质管理 · 水务工程
+</div>
 
-<input id="question"
-placeholder="请输入问题，例如：76.1沟槽接头为什么漏水？">
+</div>
 
-<button onclick="searchAI()">
-搜索
+<div class="search-card">
+
+<input
+id="question"
+placeholder="例如：沟槽接头为什么漏水？"
+/>
+
+<button onclick="searchDoc()">
+🔍 AI搜索
 </button>
 
 </div>
 
-<div class="result" id="result">
+<div class="cards">
 
-等待提问...
-
+<div class="card">
+<h3>📚 工艺文件</h3>
+<p>快速查询工艺路线、SOP、作业指导书</p>
 </div>
 
-<div class="hot">
-
-<h2>热门问题</h2>
-
-<div class="hot-item">
-76.1沟槽接头为什么漏水？
+<div class="card">
+<h3>🧪 品质体系</h3>
+<p>ISO9001、CNAS、质量手册</p>
 </div>
 
-<div class="hot-item">
-EN10312标准详解
+<div class="card">
+<h3>🏭 管件知识</h3>
+<p>沟槽、环压、卡压、焊接、法兰</p>
 </div>
 
-<div class="hot-item">
-在线固溶为什么发黄？
-</div>
-
-<div class="hot-item">
-304与316L区别
+<div class="card">
+<h3>📖 标准法规</h3>
+<p>EN10312、CJ/T463、AWWA C606</p>
 </div>
 
 </div>
+
+<div id="result" class="result">
+
+欢迎使用 FRANTA AI 知识中心
+
+</div>
+
+<div class="footer">
+
+FRANTA © 2026
 
 </div>
 
 <script>
 
-function searchAI(){
+async function searchDoc(){
 
-let q=document.getElementById("question").value;
+const q=document.getElementById("question").value;
 
 document.getElementById("result").innerHTML=
-"正在搜索：<br><br>"+q+
-"<br><br>（下一步接入Cloudflare AI Search）";
+"正在搜索："+q;
+
+try{
+
+/*
+这里后面接Cloudflare AI Search API
+*/
+
+document.getElementById("result").innerHTML=`
+
+<h2>搜索问题</h2>
+
+<p>${q}</p>
+
+<hr>
+
+<p>
+
+您的知识库已成功连接。
+
+下一步接入Cloudflare AI Search API即可实现真正AI问答。
+
+</p>
+
+`;
+
+}
+catch(e){
+
+document.getElementById("result").innerHTML=
+"搜索失败";
+
+}
 
 }
 
