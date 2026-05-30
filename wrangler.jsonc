@@ -1,18 +1,16 @@
 {
-  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "sg-ai-worker",
+  "main": "src/index.js",
   "compatibility_date": "2026-03-27",
-
   "ai": {
     "binding": "AI"
   },
-
   "ai_search": [
     {
       "binding": "MY_SEARCH",
       "instance_name": "sggg"
     }
   ],
-
   "r2_buckets": [
     {
       "binding": "KNOWLEDGE_BUCKET",
