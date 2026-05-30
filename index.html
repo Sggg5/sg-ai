@@ -3,239 +3,106 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>FRANTA AI知识中心</title>
-
+<title>FRANTA AI 工程师助手</title>
 <style>
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:"Microsoft YaHei";
-}
-
-body{
-background:#f5f7fb;
-color:#222;
-}
-
-.hero{
-text-align:center;
-padding:80px 20px 50px;
-}
-
-.logo{
-font-size:72px;
-font-weight:800;
-}
-
-.sub{
-margin-top:20px;
-font-size:24px;
-color:#666;
-}
-
-.search-card{
-
-max-width:1000px;
-margin:40px auto;
-background:#fff;
-border-radius:20px;
-padding:30px;
-box-shadow:0 10px 30px rgba(0,0,0,.08);
-
-}
-
-input{
-
-width:100%;
-padding:22px;
-font-size:24px;
-border:1px solid #ddd;
-border-radius:14px;
-
-}
-
-button{
-
-width:100%;
-margin-top:20px;
-padding:20px;
-
-font-size:26px;
-font-weight:bold;
-
-background:#0f172a;
-color:white;
-
-border:none;
-border-radius:14px;
-cursor:pointer;
-
-}
-
-button:hover{
-background:#1e293b;
-}
-
-.result{
-
-max-width:1000px;
-margin:20px auto;
-background:white;
-padding:30px;
-border-radius:20px;
-box-shadow:0 10px 30px rgba(0,0,0,.08);
-
-line-height:1.8;
-font-size:18px;
-
-}
-
-.cards{
-
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-gap:20px;
-
-max-width:1200px;
-margin:40px auto;
-
-}
-
-.card{
-
-background:white;
-padding:25px;
-border-radius:18px;
-box-shadow:0 5px 20px rgba(0,0,0,.06);
-
-}
-
-.card h3{
-margin-bottom:10px;
-}
-
-.footer{
-
-text-align:center;
-padding:60px 20px;
-color:#888;
-
-}
-
+body{margin:0;background:#f5f7fb;font-family:-apple-system,BlinkMacSystemFont,"Microsoft YaHei";color:#111827}
+.wrap{max-width:1100px;margin:auto;padding:70px 20px}
+.hero{text-align:center;margin-bottom:40px}
+.hero h1{font-size:64px;margin:0;font-weight:800}
+.hero p{font-size:22px;color:#64748b}
+.box{background:white;border-radius:24px;padding:32px;box-shadow:0 20px 50px rgba(0,0,0,.08)}
+textarea{width:100%;height:120px;border:1px solid #d1d5db;border-radius:16px;padding:20px;font-size:22px;box-sizing:border-box;resize:none}
+button{width:100%;margin-top:18px;height:60px;border:none;border-radius:16px;background:#0f172a;color:white;font-size:24px;font-weight:700;cursor:pointer}
+button:disabled{opacity:.5}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px;margin:30px 0}
+.card{background:white;border-radius:18px;padding:22px;box-shadow:0 10px 30px rgba(0,0,0,.06)}
+.result{margin-top:30px;background:white;border-radius:24px;padding:32px;box-shadow:0 20px 50px rgba(0,0,0,.08);line-height:1.8;font-size:18px;white-space:pre-wrap}
+.source{background:#f8fafc;border:1px solid #e5e7eb;border-radius:14px;padding:16px;margin-top:12px;font-size:15px}
+.hot span{display:inline-block;margin:6px;padding:10px 14px;background:#e5e7eb;border-radius:999px;cursor:pointer}
 </style>
-
 </head>
-
 <body>
+<div class="wrap">
+  <div class="hero">
+    <h1>FRANTA AI</h1>
+    <p>不锈钢管道 · 工艺研发 · 品质管理 · 水务工程</p>
+  </div>
 
-<div class="hero">
+  <div class="box">
+    <textarea id="q" placeholder="请输入问题，例如：技术负责人是谁？沟槽接头为什么漏水？"></textarea>
+    <button id="btn" onclick="ask()">AI 搜索</button>
+    <div class="hot">
+      <span onclick="fill('技术负责人是谁？')">技术负责人是谁？</span>
+      <span onclick="fill('文件控制程序有哪些要求？')">文件控制程序</span>
+      <span onclick="fill('设备管理程序的目的是什么？')">设备管理</span>
+      <span onclick="fill('沟槽接头为什么漏水？')">沟槽漏水</span>
+    </div>
+  </div>
 
-<div class="logo">
-FRANTA AI
-</div>
+  <div class="grid">
+    <div class="card"><h3>📚 体系文件</h3><p>质量手册、程序文件、作业指导书</p></div>
+    <div class="card"><h3>🧪 品质管理</h3><p>CNAS、ISO、检验与不确定度</p></div>
+    <div class="card"><h3>🏭 工艺研发</h3><p>焊接、固溶、酸洗钝化、SOP</p></div>
+    <div class="card"><h3>🔩 产品知识</h3><p>沟槽、环压、卡压、分水器、三通</p></div>
+  </div>
 
-<div class="sub">
-不锈钢管道 · 工艺研发 · 品质管理 · 水务工程
-</div>
-
-</div>
-
-<div class="search-card">
-
-<input
-id="question"
-placeholder="例如：沟槽接头为什么漏水？"
-/>
-
-<button onclick="searchDoc()">
-🔍 AI搜索
-</button>
-
-</div>
-
-<div class="cards">
-
-<div class="card">
-<h3>📚 工艺文件</h3>
-<p>快速查询工艺路线、SOP、作业指导书</p>
-</div>
-
-<div class="card">
-<h3>🧪 品质体系</h3>
-<p>ISO9001、CNAS、质量手册</p>
-</div>
-
-<div class="card">
-<h3>🏭 管件知识</h3>
-<p>沟槽、环压、卡压、焊接、法兰</p>
-</div>
-
-<div class="card">
-<h3>📖 标准法规</h3>
-<p>EN10312、CJ/T463、AWWA C606</p>
-</div>
-
-</div>
-
-<div id="result" class="result">
-
-欢迎使用 FRANTA AI 知识中心
-
-</div>
-
-<div class="footer">
-
-FRANTA © 2026
-
+  <div id="result" class="result">欢迎使用 FRANTA AI 工程师助手。</div>
 </div>
 
 <script>
-
-async function searchDoc(){
-
-const q=document.getElementById("question").value;
-
-document.getElementById("result").innerHTML=
-"正在搜索："+q;
-
-try{
-
-/*
-这里后面接Cloudflare AI Search API
-*/
-
-document.getElementById("result").innerHTML=`
-
-<h2>搜索问题</h2>
-
-<p>${q}</p>
-
-<hr>
-
-<p>
-
-您的知识库已成功连接。
-
-下一步接入Cloudflare AI Search API即可实现真正AI问答。
-
-</p>
-
-`;
-
-}
-catch(e){
-
-document.getElementById("result").innerHTML=
-"搜索失败";
-
+function fill(text){
+  document.getElementById("q").value = text;
 }
 
-}
+async function ask(){
+  const q = document.getElementById("q").value.trim();
+  const btn = document.getElementById("btn");
+  const result = document.getElementById("result");
 
+  if(!q){
+    result.textContent = "请先输入问题。";
+    return;
+  }
+
+  btn.disabled = true;
+  btn.textContent = "正在查询知识库...";
+  result.textContent = "正在从 R2 / AI Search / Workers AI 中检索并生成答案...";
+
+  try{
+    const res = await fetch("/api/ask", {
+      method:"POST",
+      headers:{ "Content-Type":"application/json" },
+      body:JSON.stringify({ question:q })
+    });
+
+    const data = await res.json();
+
+    if(!res.ok){
+      result.textContent = "请求失败：\n" + (data.detail || data.error || "未知错误");
+      return;
+    }
+
+    let html = data.answer + "\n\n";
+    html += "━━━━━━━━━━━━━━\n";
+    html += "参考来源：\n";
+
+    if(data.sources && data.sources.length){
+      data.sources.forEach((s, i)=>{
+        html += `\n[${i+1}] ${s.title}\n相似度：${Number(s.score).toFixed(3)}\n`;
+      });
+    }else{
+      html += "未找到明确来源。";
+    }
+
+    result.textContent = html;
+
+  }catch(e){
+    result.textContent = "前端请求失败：\n" + e.message;
+  }finally{
+    btn.disabled = false;
+    btn.textContent = "AI 搜索";
+  }
+}
 </script>
-
 </body>
 </html>
