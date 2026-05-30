@@ -29,24 +29,31 @@ async function handleAsk(request, env) {
       return jsonResponse({ error: "问题不能为空" }, 400);
     }
 
-    const searchResults = await env.MY_SEARCH.search({
-      query: question,
-      ai_search_options: {
-        retrieval: {
-          retrieval_type: "hybrid",
-          max_num_results: 8,
-          match_threshold: 0.35,
-          context_expansion: 1,
+    let searchError = "";
+    let searchResults = { chunks: [] };
+
+    try {
+      searchResults = await env.MY_SEARCH.search({
+        query: question,
+        ai_search_options: {
+          retrieval: {
+            retrieval_type: "vector",
+            max_num_results: 8,
+            match_threshold: 0.35,
+            context_expansion: 1,
+          },
+          query_rewrite: {
+            enabled: true,
+          },
+          reranking: {
+            enabled: true,
+            model: "@cf/baai/bge-reranker-base",
+          },
         },
-        query_rewrite: {
-          enabled: true,
-        },
-        reranking: {
-          enabled: true,
-          model: "@cf/baai/bge-reranker-base",
-        },
-      },
-    });
+      });
+    } catch (error) {
+      searchError = String(error?.message || error);
+    }
 
     const chunks = Array.isArray(searchResults?.chunks) ? searchResults.chunks : [];
     const contextText = chunks
@@ -67,7 +74,7 @@ async function handleAsk(request, env) {
         },
         {
           role: "user",
-          content: `用户问题：\n${question}\n\n知识库检索资料：\n${contextText || "未检索到相关资料"}`,
+          content: `用户问题：\n${question}\n\n知识库检索资料：\n${contextText || "未检索到相关资料"}\n\n检索状态：${searchError ? `AI Search 调用失败：${searchError}` : "AI Search 调用成功"}`,
         },
       ],
       max_tokens: 1200,
@@ -90,6 +97,7 @@ async function handleAsk(request, env) {
       answer,
       sources,
       count: chunks.length,
+      searchError,
     });
   } catch (error) {
     return jsonResponse(
